@@ -40,11 +40,11 @@
     padding: clamp(10px, 3vw, 22px) clamp(12px, 4vw, 32px) clamp(12px, 3vw, 22px);
   }
   .ls-nav__logo {
-    width: clamp(52px, 9vw, 88px);
-    height: clamp(52px, 9vw, 88px);
+    width: clamp(80px, 14vw, 130px);
+    height: clamp(80px, 14vw, 130px);
     object-fit: contain;
     flex-shrink: 0;
-    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.6));
   }
   .ls-nav__center {
     display: flex;
@@ -100,24 +100,60 @@
     background: rgba(200,16,46,0.8);
     border-color: #c8102e;
   }
+
+  /* ── LOGO FLOTANTE STICKY ── */
+  .logo-sticky {
+    position: fixed;
+    bottom: 28px;
+    right: 20px;
+    z-index: 999;
+    width: clamp(52px, 8vw, 72px);
+    height: clamp(52px, 8vw, 72px);
+    background: rgba(8,8,8,0.75);
+    border: 1px solid rgba(212,160,23,0.35);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    opacity: 0;
+    transform: translateY(16px) scale(0.9);
+    transition: opacity 0.3s ease, transform 0.3s ease, border-color 0.2s;
+    pointer-events: none;
+  }
+  .logo-sticky.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+  .logo-sticky:hover {
+    border-color: rgba(212,160,23,0.8);
+    background: rgba(20,20,20,0.9);
+  }
+  .logo-sticky img {
+    width: 68%;
+    height: 68%;
+    object-fit: contain;
+    filter: drop-shadow(0 1px 4px rgba(0,0,0,0.5));
+  }
 </style>
 
-<nav class="ls-nav" role="navigation" aria-label="Carta Lima Sur">
+<!-- NAV PRINCIPAL -->
+<nav class="ls-nav" id="inicio" role="navigation" aria-label="Carta Lima Sur">
   <img class="ls-nav__bg"
     src="https://raw.githubusercontent.com/digitalmenteepro-cell/cartalimasur.cl/refs/heads/main/imagenes/Nav%20lima%20sur.jpg"
     alt="" aria-hidden="true" loading="eager">
   <div class="ls-nav__overlay" aria-hidden="true"></div>
-
   <div class="ls-nav__inner">
     <img class="ls-nav__logo"
       src="https://raw.githubusercontent.com/digitalmenteepro-cell/cartalimasur.cl/refs/heads/main/imagenes/Logo%20sin%20fondo.png"
       alt="Logo Lima Sur" loading="eager">
-
     <div class="ls-nav__center">
       <span class="ls-nav__badge">Carta Digital</span>
       <span class="ls-nav__title">Lima Sur</span>
     </div>
-
     <div class="ls-nav__pills">
       <a class="ls-nav__pill" href="#tenedor-libre">🍴 Tenedor Libre</a>
       <a class="ls-nav__pill" href="#platos-preparados">🍽 Platos Preparados</a>
@@ -127,3 +163,19 @@
     </div>
   </div>
 </nav>
+
+<!-- LOGO FLOTANTE (scroll-to-top) -->
+<button class="logo-sticky" id="logoSticky" aria-label="Volver al inicio" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <img src="https://raw.githubusercontent.com/digitalmenteepro-cell/cartalimasur.cl/refs/heads/main/imagenes/Logo%20sin%20fondo.png" alt="">
+</button>
+
+<script>
+  const sticky = document.getElementById('logoSticky');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+      sticky.classList.add('visible');
+    } else {
+      sticky.classList.remove('visible');
+    }
+  }, { passive: true });
+</script>
