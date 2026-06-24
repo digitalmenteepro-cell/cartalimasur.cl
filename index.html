@@ -27,9 +27,7 @@
     overflow-x: hidden;
   }
 
-  /* ════════════════════════════
-     NAV
-  ════════════════════════════ */
+  /* ════ NAV ════ */
   .ls-nav {
     position: relative;
     width: 100%;
@@ -37,6 +35,7 @@
     min-height: 240px;
     max-height: 420px;
     overflow: hidden;
+    font-family: 'Segoe UI', Arial, sans-serif;
   }
   .ls-nav__bg {
     position: absolute; inset: 0;
@@ -54,16 +53,14 @@
   }
   .ls-nav__inner {
     position: absolute; inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: space-between;
     padding: clamp(10px,3vw,22px) clamp(12px,4vw,32px) clamp(12px,3vw,22px);
   }
   .ls-nav__logo {
-    width: clamp(52px,9vw,88px);
-    height: clamp(52px,9vw,88px);
-    object-fit: contain;
+    width: clamp(80px, 14vw, 130px);
+    height: clamp(80px, 14vw, 130px);
+    object-fit: contain; flex-shrink: 0;
     filter: drop-shadow(0 2px 8px rgba(0,0,0,0.6));
   }
   .ls-nav__center {
@@ -109,9 +106,41 @@
     border-color: var(--rojo);
   }
 
-  /* ════════════════════════════
-     BANNER GUARDA ANDINA
-  ════════════════════════════ */
+  /* ════ LOGO STICKY ════ */
+  .logo-sticky {
+    position: fixed;
+    bottom: 28px; right: 20px;
+    z-index: 999;
+    width: clamp(52px, 8vw, 72px);
+    height: clamp(52px, 8vw, 72px);
+    background: rgba(8,8,8,0.75);
+    border: 1px solid rgba(212,160,23,0.35);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    opacity: 0;
+    transform: translateY(16px) scale(0.9);
+    transition: opacity 0.3s ease, transform 0.3s ease, border-color 0.2s;
+    pointer-events: none;
+  }
+  .logo-sticky.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+  .logo-sticky:hover {
+    border-color: rgba(212,160,23,0.85);
+    background: rgba(20,20,20,0.95);
+  }
+  .logo-sticky img {
+    width: 68%; height: 68%;
+    object-fit: contain;
+    filter: drop-shadow(0 1px 4px rgba(0,0,0,0.5));
+  }
+
+  /* ════ BANNER GUARDA ANDINA ════ */
   .banner-peru {
     width: 100%; height: 54px;
     overflow: hidden; background: var(--negro);
@@ -129,9 +158,7 @@
   }
   .banda-svg { display: block; height: 54px; flex-shrink: 0; }
 
-  /* ════════════════════════════
-     STRIP
-  ════════════════════════════ */
+  /* ════ STRIP ════ */
   .strip {
     background: var(--rojo);
     padding: 10px 24px; text-align: center;
@@ -141,9 +168,7 @@
     color: rgba(255,255,255,0.92);
   }
 
-  /* ════════════════════════════
-     HERO PLATOS
-  ════════════════════════════ */
+  /* ════ HERO PLATOS ════ */
   .hero {
     position: relative; width: 100%;
     height: clamp(220px,35vw,440px); overflow: hidden;
@@ -192,9 +217,7 @@
     letter-spacing: 1px; font-weight: 300;
   }
 
-  /* ════════════════════════════
-     WRAPPER + SECCIONES
-  ════════════════════════════ */
+  /* ════ WRAPPER ════ */
   .wrapper {
     max-width: 1100px; margin: 0 auto;
     padding: clamp(24px,4vw,56px) clamp(16px,4vw,40px);
@@ -218,9 +241,7 @@
   }
   .sec-header__icono { font-size: clamp(18px,2.5vw,22px); }
 
-  /* ════════════════════════════
-     GRID + CARDS
-  ════════════════════════════ */
+  /* ════ GRID + CARDS ════ */
   .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
@@ -296,9 +317,7 @@
     transform: scaleX(1); transform-origin: left;
   }
 
-  /* ════════════════════════════
-     DIVISORES
-  ════════════════════════════ */
+  /* ════ DIVISORES ════ */
   .divisor {
     width: 60px; height: 2px;
     background: linear-gradient(to right, var(--rojo), var(--dorado));
@@ -318,8 +337,8 @@
 </head>
 <body>
 
-<!-- ════ PARTE 1 · NAV ════ -->
-<nav class="ls-nav" role="navigation" aria-label="Carta Lima Sur">
+<!-- ════ NAV ════ -->
+<nav class="ls-nav" id="inicio" role="navigation" aria-label="Carta Lima Sur">
   <img class="ls-nav__bg"
     src="https://raw.githubusercontent.com/digitalmenteepro-cell/cartalimasur.cl/refs/heads/main/imagenes/Nav%20lima%20sur.jpg"
     alt="" loading="eager">
@@ -341,6 +360,12 @@
     </div>
   </div>
 </nav>
+
+<!-- ════ LOGO STICKY ════ -->
+<button class="logo-sticky" id="logoSticky" aria-label="Volver al inicio"
+  onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <img src="https://raw.githubusercontent.com/digitalmenteepro-cell/cartalimasur.cl/refs/heads/main/imagenes/Logo%20sin%20fondo.png" alt="">
+</button>
 
 <!-- ════ BANNER GUARDA ANDINA ════ -->
 <div class="banner-peru" aria-hidden="true">
@@ -390,7 +415,7 @@
 <!-- ════ STRIP ════ -->
 <div class="strip">✦ &nbsp; Todos los precios en pesos chilenos &nbsp; ✦</div>
 
-<!-- ════ PARTE 2 · HERO PLATOS ════ -->
+<!-- ════ HERO PLATOS ════ -->
 <div class="hero" id="platos-preparados">
   <img class="hero__img"
     src="https://raw.githubusercontent.com/digitalmenteepro-cell/cartalimasur.cl/refs/heads/main/imagenes/platos%20limasur.webp"
@@ -406,7 +431,6 @@
 <!-- ════ CARTA ════ -->
 <div class="wrapper">
 
-  <!-- CEVICHES & ENTRADAS -->
   <div class="sec-header">
     <div class="sec-header__linea"></div>
     <span class="sec-header__icono">🐟</span>
@@ -428,7 +452,6 @@
   <div class="divisor"></div>
   <div class="ornamento">◆ ◇ ◆</div>
 
-  <!-- CAUSAS -->
   <div class="sec-header" style="margin-top:28px;">
     <div class="sec-header__linea"></div>
     <span class="sec-header__icono">🥑</span>
@@ -443,7 +466,14 @@
     <div class="card"><div class="card__body"><div class="card__info"><span class="card__numero">12</span><div class="card__nombre">Trio Marino</div></div><div class="card__precio-wrap"><span class="card__precio">$21.900</span></div></div></div>
   </div>
 
-</div><!-- /wrapper -->
+</div>
+
+<script>
+  const sticky = document.getElementById('logoSticky');
+  window.addEventListener('scroll', () => {
+    sticky.classList.toggle('visible', window.scrollY > 300);
+  }, { passive: true });
+</script>
 
 </body>
 </html>
