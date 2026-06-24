@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lima Sur · Carta Digital</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --negro:  #080808;
+    --card:   #161616;
+    --borde:  #2a2a2a;
+    --dorado: #d4a017;
+    --oro2:   #f0c040;
+    --rojo:   #c8102e;
+    --crema:  #f5f0e8;
+    --gris:   #888;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--negro);
+    color: var(--crema);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ════════════════════════════
+     NAV
+  ════════════════════════════ */
+  .ls-nav {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 7;
+    min-height: 240px;
+    max-height: 420px;
+    overflow: hidden;
+  }
+  .ls-nav__bg {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+    display: block;
+  }
+  .ls-nav__overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom,
+      rgba(0,0,0,0.18) 0%,
+      rgba(0,0,0,0.48) 55%,
+      rgba(0,0,0,0.88) 100%);
+  }
+  .ls-nav__inner {
+    position: absolute; inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: clamp(10px,3vw,22px) clamp(12px,4vw,32px) clamp(12px,3vw,22px);
+  }
+  .ls-nav__logo {
+    width: clamp(52px,9vw,88px);
+    height: clamp(52px,9vw,88px);
+    object-fit: contain;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.6));
+  }
+  .ls-nav__center {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 5px;
+  }
+  .ls-nav__badge {
+    display: inline-block;
+    background: var(--rojo); color: #fff;
+    font-size: clamp(8px,1.4vw,11px);
+    font-weight: 700; letter-spacing: 1.4px;
+    text-transform: uppercase;
+    padding: 3px 12px; border-radius: 20px;
+  }
+  .ls-nav__title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px,5vw,42px);
+    font-weight: 900; color: #fff;
+    letter-spacing: -0.5px; text-align: center;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.55);
+    line-height: 1.05;
+  }
+  .ls-nav__pills {
+    display: flex; flex-wrap: wrap;
+    justify-content: center;
+    gap: clamp(5px,1vw,8px); width: 100%;
+  }
+  .ls-nav__pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.30);
+    color: #fff;
+    font-size: clamp(9px,1.4vw,11px);
+    font-weight: 700; letter-spacing: 0.9px;
+    text-transform: uppercase;
+    padding: clamp(5px,1vw,7px) clamp(9px,1.8vw,14px);
+    border-radius: 20px; text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.18s, border-color 0.18s;
+  }
+  .ls-nav__pill:hover {
+    background: rgba(200,16,46,0.82);
+    border-color: var(--rojo);
+  }
+
+  /* ════════════════════════════
+     BANNER GUARDA ANDINA
+  ════════════════════════════ */
+  .banner-peru {
+    width: 100%; height: 54px;
+    overflow: hidden; background: var(--negro);
+  }
+  .banner-track {
+    display: flex; align-items: center;
+    height: 100%; width: max-content;
+    animation: scroll-peru 28s linear infinite;
+    will-change: transform;
+  }
+  .banner-track:hover { animation-play-state: paused; }
+  @keyframes scroll-peru {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .banda-svg { display: block; height: 54px; flex-shrink: 0; }
+
+  /* ════════════════════════════
+     STRIP
+  ════════════════════════════ */
+  .strip {
+    background: var(--rojo);
+    padding: 10px 24px; text-align: center;
+    font-size: clamp(10px,1.5vw,11px);
+    font-weight: 600; letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.92);
+  }
+
+  /* ════════════════════════════
+     HERO PLATOS
+  ════════════════════════════ */
+  .hero {
+    position: relative; width: 100%;
+    height: clamp(220px,35vw,440px); overflow: hidden;
+  }
+  .hero__img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center 35%;
+    display: block; transform: scale(1.04);
+    transition: transform 8s ease;
+  }
+  .hero:hover .hero__img { transform: scale(1.09); }
+  .hero__velo {
+    position: absolute; inset: 0;
+    background: linear-gradient(160deg,
+      rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 45%, rgba(8,8,8,0.95) 100%);
+  }
+  .hero__contenido {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    justify-content: flex-end;
+    padding: clamp(20px,4vw,48px);
+  }
+  .hero__eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    color: var(--dorado);
+    font-size: clamp(10px,1.4vw,12px);
+    font-weight: 600; letter-spacing: 3px;
+    text-transform: uppercase; margin-bottom: 10px;
+  }
+  .hero__eyebrow::before {
+    content: ''; display: block;
+    width: 28px; height: 1.5px;
+    background: var(--dorado); flex-shrink: 0;
+  }
+  .hero__titulo {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(30px,6.5vw,68px);
+    font-weight: 900; line-height: 0.95;
+    color: #fff; letter-spacing: -1px;
+  }
+  .hero__titulo span { color: var(--dorado); display: block; }
+  .hero__subtitulo {
+    margin-top: 10px;
+    font-size: clamp(12px,1.6vw,14px);
+    color: rgba(245,240,232,0.5);
+    letter-spacing: 1px; font-weight: 300;
+  }
+
+  /* ════════════════════════════
+     WRAPPER + SECCIONES
+  ════════════════════════════ */
+  .wrapper {
+    max-width: 1100px; margin: 0 auto;
+    padding: clamp(24px,4vw,56px) clamp(16px,4vw,40px);
+  }
+  .sec-header {
+    display: flex; align-items: center; gap: 16px;
+    margin-bottom: clamp(20px,3vw,36px);
+  }
+  .sec-header__linea {
+    flex: 1; height: 1px;
+    background: linear-gradient(to right, var(--dorado), transparent);
+  }
+  .sec-header__linea--der {
+    background: linear-gradient(to left, var(--dorado), transparent);
+  }
+  .sec-header__titulo {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(20px,3.5vw,30px);
+    font-weight: 700; color: var(--dorado);
+    white-space: nowrap; letter-spacing: 0.5px;
+  }
+  .sec-header__icono { font-size: clamp(18px,2.5vw,22px); }
+
+  /* ════════════════════════════
+     GRID + CARDS
+  ════════════════════════════ */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+    gap: clamp(12px,2vw,20px);
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--borde);
+    border-radius: 14px; overflow: hidden;
+    display: flex; flex-direction: column;
+    position: relative;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .card::before {
+    content: ''; position: absolute; inset: 0;
+    border-radius: 14px; border: 1px solid transparent;
+    transition: border-color 0.3s;
+    pointer-events: none; z-index: 1;
+  }
+  .card:hover { transform: translateY(-3px); border-color: #333; }
+  .card:hover::before { border-color: rgba(212,160,23,0.25); }
+  .card::after {
+    content: ''; position: absolute;
+    left: 0; top: 16px; bottom: 16px; width: 3px;
+    background: var(--rojo);
+    border-radius: 0 3px 3px 0;
+    transition: background 0.3s;
+  }
+  .card:hover::after { background: var(--dorado); }
+  .card__body {
+    padding: clamp(14px,2.5vw,22px) clamp(16px,2.5vw,24px);
+    display: flex; align-items: center;
+    justify-content: space-between; gap: 12px; flex: 1;
+  }
+  .card__info { flex: 1; min-width: 0; }
+  .card__numero {
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 2px; color: var(--rojo);
+    text-transform: uppercase; margin-bottom: 4px;
+    display: block; transition: color 0.3s;
+  }
+  .card:hover .card__numero { color: var(--dorado); }
+  .card__nombre {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(14px,2vw,17px);
+    font-weight: 700; color: var(--crema);
+    line-height: 1.2;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .card__precio-wrap { flex-shrink: 0; }
+  .card__precio {
+    display: inline-block;
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(17px,2.2vw,22px);
+    font-weight: 900; color: var(--dorado);
+    letter-spacing: -0.5px; position: relative;
+    transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1),
+                color 0.25s, text-shadow 0.25s;
+    transform-origin: center right;
+  }
+  .card__precio::after {
+    content: ''; position: absolute;
+    bottom: -3px; left: 0; right: 0; height: 1.5px;
+    background: var(--dorado);
+    transform: scaleX(0); transform-origin: right;
+    transition: transform 0.3s ease;
+  }
+  .card:hover .card__precio {
+    transform: scale(1.18); color: var(--oro2);
+    text-shadow: 0 0 18px rgba(212,160,23,0.45);
+  }
+  .card:hover .card__precio::after {
+    transform: scaleX(1); transform-origin: left;
+  }
+
+  /* ════════════════════════════
+     DIVISORES
+  ════════════════════════════ */
+  .divisor {
+    width: 60px; height: 2px;
+    background: linear-gradient(to right, var(--rojo), var(--dorado));
+    margin: clamp(32px,5vw,56px) auto; border-radius: 2px;
+  }
+  .ornamento {
+    text-align: center; color: var(--dorado);
+    font-size: 20px; letter-spacing: 12px;
+    opacity: 0.35; margin: 8px 0;
+  }
+
+  @media (max-width: 600px) {
+    .card__nombre { font-size: 14px; }
+    .card__precio { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════ PARTE 1 · NAV ════ -->
+<nav class="ls-nav" role="navigation" aria-label="Carta Lima Sur">
+  <img class="ls-nav__bg"
+    src="https://raw.githubusercontent.com/digitalmenteepro-cell/cartalimasur.cl/refs/heads/main/imagenes/Nav%20lima%20sur.jpg"
+    alt="" loading="eager">
+  <div class="ls-nav__overlay" aria-hidden="true"></div>
+  <div class="ls-nav__inner">
+    <img class="ls-nav__logo"
+      src="https://raw.githubusercontent.com/digitalmenteepro-cell/cartalimasur.cl/refs/heads/main/imagenes/Logo%20sin%20fondo.png"
+      alt="Logo Lima Sur" loading="eager">
+    <div class="ls-nav__center">
+      <span class="ls-nav__badge">Carta Digital</span>
+      <span class="ls-nav__title">Lima Sur</span>
+    </div>
+    <div class="ls-nav__pills">
+      <a class="ls-nav__pill" href="#tenedor-libre">🍴 Tenedor Libre</a>
+      <a class="ls-nav__pill" href="#platos-preparados">🍽 Platos Preparados</a>
+      <a class="ls-nav__pill" href="#cocteles">🍹 Cócteles</a>
+      <a class="ls-nav__pill" href="#bebidas">🥤 Bebidas</a>
+      <a class="ls-nav__pill" href="#jugos">🍊 Jugos</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ════ BANNER GUARDA ANDINA ════ -->
+<div class="banner-peru" aria-hidden="true">
+  <div class="banner-track">
+    <svg class="banda-svg" viewBox="0 0 1400 54" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <rect width="1400" height="54" fill="#080808"/>
+      <defs>
+        <pattern id="guarda" x="0" y="0" width="28" height="54" patternUnits="userSpaceOnUse">
+          <rect x="0"  y="10" width="3" height="3" fill="#c8102e"/>
+          <rect x="3"  y="13" width="3" height="3" fill="#c8102e"/>
+          <rect x="6"  y="16" width="3" height="3" fill="#c8102e"/>
+          <rect x="0"  y="40" width="3" height="3" fill="#c8102e"/>
+          <rect x="3"  y="37" width="3" height="3" fill="#c8102e"/>
+          <rect x="6"  y="34" width="3" height="3" fill="#c8102e"/>
+          <polygon points="14,14 21,27 14,40 7,27" fill="#c8102e"/>
+          <rect x="11" y="22" width="3" height="3" fill="#d4a017"/>
+          <rect x="15" y="22" width="3" height="3" fill="#d4a017"/>
+          <rect x="11" y="29" width="3" height="3" fill="#d4a017"/>
+          <rect x="15" y="29" width="3" height="3" fill="#d4a017"/>
+          <line x1="14" y1="17" x2="14" y2="37" stroke="#080808" stroke-width="1.2"/>
+          <line x1="9"  y1="27" x2="19" y2="27" stroke="#080808" stroke-width="1.2"/>
+          <rect x="21" y="16" width="3" height="3" fill="#c8102e"/>
+          <rect x="24" y="13" width="3" height="3" fill="#c8102e"/>
+          <rect x="21" y="34" width="3" height="3" fill="#c8102e"/>
+          <rect x="24" y="37" width="3" height="3" fill="#c8102e"/>
+          <line x1="0"  y1="27" x2="7"  y2="27" stroke="#d4a017" stroke-width="0.8" opacity="0.5"/>
+          <line x1="21" y1="27" x2="28" y2="27" stroke="#d4a017" stroke-width="0.8" opacity="0.5"/>
+        </pattern>
+      </defs>
+      <rect width="1400" height="54" fill="url(#guarda)"/>
+      <line x1="0" y1="4"  x2="1400" y2="4"  stroke="#c8102e" stroke-width="2"/>
+      <line x1="0" y1="50" x2="1400" y2="50" stroke="#c8102e" stroke-width="2"/>
+      <line x1="0" y1="8"  x2="1400" y2="8"  stroke="#d4a017" stroke-width="1"/>
+      <line x1="0" y1="46" x2="1400" y2="46" stroke="#d4a017" stroke-width="1"/>
+    </svg>
+    <svg class="banda-svg" viewBox="0 0 1400 54" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <rect width="1400" height="54" fill="#080808"/>
+      <rect width="1400" height="54" fill="url(#guarda)"/>
+      <line x1="0" y1="4"  x2="1400" y2="4"  stroke="#c8102e" stroke-width="2"/>
+      <line x1="0" y1="50" x2="1400" y2="50" stroke="#c8102e" stroke-width="2"/>
+      <line x1="0" y1="8"  x2="1400" y2="8"  stroke="#d4a017" stroke-width="1"/>
+      <line x1="0" y1="46" x2="1400" y2="46" stroke="#d4a017" stroke-width="1"/>
+    </svg>
+  </div>
+</div>
+
+<!-- ════ STRIP ════ -->
+<div class="strip">✦ &nbsp; Todos los precios en pesos chilenos &nbsp; ✦</div>
+
+<!-- ════ PARTE 2 · HERO PLATOS ════ -->
+<div class="hero" id="platos-preparados">
+  <img class="hero__img"
+    src="https://raw.githubusercontent.com/digitalmenteepro-cell/cartalimasur.cl/refs/heads/main/imagenes/platos%20limasur.webp"
+    alt="Platos Lima Sur" loading="eager">
+  <div class="hero__velo"></div>
+  <div class="hero__contenido">
+    <div class="hero__eyebrow">Cocina Peruana Auténtica</div>
+    <h1 class="hero__titulo">Lima<span>Sur</span></h1>
+    <p class="hero__subtitulo">Carta de platos · Chillán, Chile</p>
+  </div>
+</div>
+
+<!-- ════ CARTA ════ -->
+<div class="wrapper">
+
+  <!-- CEVICHES & ENTRADAS -->
+  <div class="sec-header">
+    <div class="sec-header__linea"></div>
+    <span class="sec-header__icono">🐟</span>
+    <h2 class="sec-header__titulo">Ceviches & Entradas</h2>
+    <span class="sec-header__icono">🐟</span>
+    <div class="sec-header__linea sec-header__linea--der"></div>
+  </div>
+  <div class="grid">
+    <div class="card"><div class="card__body"><div class="card__info"><span class="card__numero">01</span><div class="card__nombre">Ceviche Lima Sur</div></div><div class="card__precio-wrap"><span class="card__precio">$17.900</span></div></div></div>
+    <div class="card"><div class="card__body"><div class="card__info"><span class="card__numero">02</span><div class="card__nombre">Ceviche Mixto</div></div><div class="card__precio-wrap"><span class="card__precio">$15.900</span></div></div></div>
+    <div class="card"><div class="card__body"><div class="card__info"><span class="card__numero">03</span><div class="card__nombre">Ceviche Carretillero</div></div><div class="card__precio-wrap"><span class="card__precio">$16.900</span></div></div></div>
+    <div class="card"><div class="card__body"><div class="card__info"><span class="card__numero">04</span><div class="card__nombre">Ceviche Pescado</div></div><div class="card__precio-wrap"><span class="card__precio">$13.000</span></div></div></div>
+    <div class="card"><div class="card__body"><div class="card__info"><span class="card__numero">05</span><div class="card__nombre">Tiradito Thay de Atún</div></div><div class="card__precio-wrap"><span class="card__precio">$16.500</span></div></div></div>
+    <div class="card"><div class="card__body"><div class="card__info"><span class="card__numero">06</span><div class="card__nombre">Trio Ceviches</div></div><div class="card__precio-wrap"><span class="card__precio">$23.900</span></div></div></div>
+    <div class="card"><div class="card__body"><div class="card__info"><span class="card__numero">07</span><div class="card__nombre">Ensalada Mixta</div></div><div class="card__precio-wrap"><span class="card__precio">$8.000</span></div></div></div>
+    <div class="card"><div class="card__body"><div class="card__info"><span class="card__numero">08</span><div class="card__nombre">Pulpo al Olivo</div></div><div class="card__precio-wrap"><span class="card__precio">$15.000</span></div></div></div>
+  </div>
+
+  <div class="divisor"></div>
+  <div class="ornamento">◆ ◇ ◆</div>
+
+  <!-- CAUSAS -->
+  <div class="sec-header" style="margin-top:28px;">
+    <div class="sec-header__linea"></div>
+    <span class="sec-header__icono">🥑</span>
+    <h2 class="sec-header__titulo">Causas</h2>
+    <span class="sec-header__icono">🥑</span>
+    <div class="sec-header__linea sec-header__linea--der"></div>
+  </div>
+  <div class="grid">
+    <div class="card"><div class="card__body"><div class="card__info"><span class="card__numero">09</span><div class="card__nombre">Causa 3 Quesos de Lima</div></div><div class="card__precio-wrap"><span class="card__precio">$17.900</span></div></div></div>
+    <div class="card"><div class="card__body"><div class="card__info"><span class="card__numero">10</span><div class="card__nombre">Trio de Causas</div></div><div class="card__precio-wrap"><span class="card__precio">$13.900</span></div></div></div>
+    <div class="card"><div class="card__body"><div class="card__info"><span class="card__numero">11</span><div class="card__nombre">Causa Acevichada</div></div><div class="card__precio-wrap"><span class="card__precio">$14.000</span></div></div></div>
+    <div class="card"><div class="card__body"><div class="card__info"><span class="card__numero">12</span><div class="card__nombre">Trio Marino</div></div><div class="card__precio-wrap"><span class="card__precio">$21.900</span></div></div></div>
+  </div>
+
+</div><!-- /wrapper -->
+
+</body>
+</html>
